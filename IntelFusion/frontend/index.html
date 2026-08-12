@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IntelFusion — OSINT People Search Engine</title>
+  <meta name="description" content="IntelFusion is a professional OSINT aggregator that searches publicly available internet sources to build a comprehensive digital profile of any person. Powered by real-time multi-source intelligence gathering." />
+  <meta name="keywords" content="OSINT, people search, digital footprint, social media search, PeopleRank, open source intelligence" />
+  <meta property="og:title" content="IntelFusion — OSINT People Search Engine" />
+  <meta property="og:description" content="Real-time people intelligence from public web sources." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#080c14" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="/">
+        <div class="nav-logo">🔍</div>
+        <span class="nav-title">IntelFusion</span>
+        <span class="nav-badge">OSINT v1.0</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="#how-it-works">How It Works</a>
+        <a class="nav-link" href="https://github.com/harsh-0106-cyber/IntelFusion" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-eyebrow">
+      ⚡ Open Source Intelligence Platform
+    </div>
+
+    <h1 class="hero-title">
+      Find Anyone's<br>
+      <span class="gradient-text">Digital Footprint</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      IntelFusion aggregates publicly available information across social platforms,
+      search engines, and the open web — in real-time. No login required.
+    </p>
+
+    <!-- Search Box -->
+    <div class="search-wrapper">
+      <div class="search-box">
+        <div class="search-input-group">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Full name (e.g. Elon Musk)"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Person's full name"
+            maxlength="100"
+          />
+          <div class="search-divider"></div>
+          <input
+            type="text"
+            id="keywords-input"
+            class="search-keywords"
+            placeholder="Keywords (e.g. CEO, Tesla)"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Optional keywords"
+            maxlength="120"
+          />
+          <button class="search-btn" id="search-btn" aria-label="Run OSINT search">
+            🔍 Search
+          </button>
+        </div>
+        </div>
+      </div>
+      
+      <!-- Advanced Search Toggle & Panel -->
+      <div class="advanced-search-wrapper">
+        <button type="button" class="advanced-toggle" id="advanced-toggle">
+          ⚙️ Advanced Filters
+        </button>
+        <div class="advanced-panel" id="advanced-panel" style="display: none;">
+          <div class="advanced-grid">
+            <div class="advanced-field">
+              <label for="work-input">Place of Work</label>
+              <input type="text" id="work-input" placeholder="e.g. SpaceX" aria-label="Place of Work">
+            </div>
+            <div class="advanced-field">
+              <label for="institute-input">Institute / Organization</label>
+              <input type="text" id="institute-input" placeholder="e.g. Stanford University" aria-label="Institute">
+            </div>
+            <div class="advanced-field">
+              <label for="image-input">Image URL</label>
+              <input type="url" id="image-input" placeholder="https://example.com/photo.jpg" aria-label="Image URL">
+            </div>
+          </div>
+          <div class="advanced-hint">Providing an Image URL will generate links to reverse image search engines.</div>
+        </div>
+      </div>
+
+
+      <div class="search-hints">
+        <span class="search-hint-tag" data-query="Elon Musk" title="Try: Elon Musk">Elon Musk</span>
+        <span class="search-hint-tag" data-query="Mark Zuckerberg" title="Try: Mark Zuckerberg">Mark Zuckerberg</span>
+        <span class="search-hint-tag" data-query="Sundar Pichai" title="Try: Sundar Pichai">Sundar Pichai</span>
+        <span class="search-hint-tag" data-query="Ada Lovelace" title="Try: Ada Lovelace">Ada Lovelace</span>
+        <span class="search-hint-tag" data-query="Tim Berners-Lee" title="Try: Tim Berners-Lee">Tim Berners-Lee</span>
+      </div>
+    </div>
+
+    <!-- Hero Stats -->
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Platforms Scanned</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">Real-Time</div>
+        <div class="stat-label">Live SSE Streaming</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">0</div>
+        <div class="stat-label">API Keys Required</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Public Data Only</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ RESULTS SECTION ═══════════════ -->
+  <section id="results-section">
+    <div class="container">
+
+      <!-- Progress bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+
+      <!-- Homonym Alert (shown when multiple distinct people detected) -->
+      <div class="homonym-alert" id="homonym-alert" style="display:none">
+        <div class="alert-icon">⚠️</div>
+        <div>
+          <div class="alert-title">Multiple Identities Detected</div>
+          <div class="alert-body">
+            Results suggest this name belongs to more than one distinct person.
+            Use keywords to narrow down your search to a specific individual.
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Header with PeopleRank Gauge -->
+      <div class="profile-header" id="profile-header" style="display:none"></div>
+
+      <!-- Loading Radar (shown while searching) -->
+      <div class="loading-radar" id="loading-radar" style="display:none">
+        <div class="radar-container">
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-dot"></div>
+        </div>
+        <div class="loading-status" id="loading-status">Initialising scan...</div>
+        <div class="loading-stage" id="loading-stage">Stage: Query Parsing</div>
+      </div>
+
+      <!-- Tag Cloud -->
+      <div class="tag-cloud-card" id="tag-cloud-card" style="display:none">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Topic Intelligence — Tag Cloud
+        </div>
+        <div class="tag-cloud" id="tag-cloud"></div>
+      </div>
+      
+      <!-- Visual Intelligence -->
+      <div class="tag-cloud-card" id="visual-intel-card" style="display:none; margin-top:20px;">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Visual Intelligence
+        </div>
+        <div style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:12px;">Reverse Image Search Direct Links for the provided Image URL.</div>
+        <div class="visual-intel-links" id="visual-intel-links" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+      </div>
+      
+      <!-- Research Papers Summary -->
+      <div class="tag-cloud-card" id="research-card" style="display:none; margin-top:20px;">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Academic & Research Profiles
+        </div>
+        <div id="research-profiles" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;"></div>
+        <div class="card-title" style="font-size: 0.9rem;">Recent Publications</div>
+        <div id="research-papers" style="display:grid; grid-template-columns:1fr; gap:10px;"></div>
+      </div>
+
+      <!-- Images Strip -->
+      <div class="images-card" id="images-card" style="display:none">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Found Images
+        </div>
+        <div class="image-strip" id="image-strip"></div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" id="filter-tabs"></div>
+
+      <!-- Results Grid -->
+      <div class="results-grid" id="results-grid"></div>
+
+      <!-- Export Bar -->
+      <div class="export-bar" id="export-bar" style="display:none">
+        <div class="export-info" id="export-info">Loading results...</div>
+        <div class="export-actions">
+          <button class="btn btn-outline" onclick="exportJSON()" id="btn-export-json" aria-label="Export results as JSON">
+            📄 Export JSON
+          </button>
+          <button class="btn btn-primary" onclick="printReport()" id="btn-print" aria-label="Print intelligence report">
+            🖨️ Print Report
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+  <section id="how-it-works" style="padding: 80px 0; position:relative; z-index:1">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:48px">
+        <div class="hero-eyebrow" style="display:inline-flex; margin-bottom:16px">How It Works</div>
+        <h2 style="font-family:var(--font-heading); font-size:2rem; font-weight:700; letter-spacing:-0.02em">
+          Five-Stage OSINT Pipeline
+        </h2>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px">
+        <!-- Stage cards -->
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">🧠</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">1. Query Parsing</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Splits input into first name, last name, keywords & location for targeted searching</div>
+        </div>
+
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">🌐</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">2. Search Mashup</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Queries DuckDuckGo with multiple query variants for broad web coverage</div>
+        </div>
+
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">📡</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">3. Social Probing</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Probes GitHub, Reddit, Wikipedia, LinkedIn, Twitter, Instagram & more</div>
+        </div>
+
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">🔗</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">4. Entity Resolution</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Deduplicates results, builds TF-IDF tag cloud & detects homonyms</div>
+        </div>
+
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">📊</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">5. PeopleRank™</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Computes a 0–100 online visibility score based on breadth, depth & authority</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer">
+    <p class="footer-disclaimer">
+      ⚠️ IntelFusion searches only publicly available information.
+      This tool is intended for educational and legitimate investigative use only.
+      Do not use to harass, stalk, or harm individuals.
+      Always respect privacy laws and platform terms of service.
+    </p>
+    <div class="footer-links">
+      <a class="footer-link" href="https://github.com/harsh-0106-cyber/IntelFusion" target="_blank">GitHub</a>
+      <span style="color:var(--text-muted)">·</span>
+      <a class="footer-link" href="#hero">Back to Top</a>
+    </div>
+    <p style="margin-top:12px; font-size:0.75rem; color:var(--text-muted)">
+      IntelFusion &copy; 2026 · Built with Flask &amp; Vanilla JS · All data sourced from public web
+    </p>
+  </footer>
+
+  <!-- ═══════════════ LIGHTBOX ═══════════════ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Image viewer">
+    <span class="lightbox-close" title="Close">✕</span>
+    <img id="lightbox-img" src="" alt="Lightbox image" />
+  </div>
+
+  <script src="js/app.js"></script>
+
+  <!-- Show tag cloud card as soon as tags arrive -->
+  <script>
+    // Observe tag cloud and show/hide its wrapper card
+    const tagObserver = new MutationObserver(() => {
+      const tc = document.getElementById('tag-cloud');
+      const card = document.getElementById('tag-cloud-card');
+      if (tc && card) {
+        card.style.display = tc.children.length > 0 ? 'block' : 'none';
+      }
+    });
+    tagObserver.observe(document.getElementById('tag-cloud'), { childList: true });
+  </script>
+
+</body>
+</html>
