@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruSINT — OSINT People Search Engine</title>
+  <meta name="description" content="TruSINT is a professional OSINT aggregator that searches publicly available internet sources to build a comprehensive digital profile of any person. Powered by real-time multi-source intelligence gathering." />
+  <meta name="keywords" content="OSINT, people search, digital footprint, social media search, PeopleRank, open source intelligence" />
+  <meta property="og:title" content="TruSINT — OSINT People Search Engine" />
+  <meta property="og:description" content="Real-time people intelligence from public web sources." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#080c14" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/zlens.css" />
+</head>
+<body>
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="/">
+        <div class="nav-logo">🔍</div>
+        <span class="nav-title">TruSINT</span>
+        <span class="nav-badge">OSINT v1.0</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="#how-it-works" id="link-how-it-works">How It Works</a>
+        <a class="nav-link" href="https://github.com/harsh-0106-cyber/TruSINT" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <div class="nav-tabs" id="nav-tabs">
+        <button class="nav-tab active" id="tab-osint" onclick="switchTab('osint')">🔍 OSINT Search</button>
+        <button class="nav-tab" id="tab-lookmeup" onclick="switchTab('lookmeup')">📧 LookMeUp</button>
+        <button class="nav-tab" id="tab-recruiter" onclick="switchTab('recruiter')">🎯 Recruiter</button>
+        <button class="nav-tab" id="tab-zlens" onclick="switchTab('zlens')">📸 ZLens</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-eyebrow">
+      ⚡ Open Source Intelligence Platform
+    </div>
+
+    <h1 class="hero-title">
+      Find Anyone's<br>
+      <span class="gradient-text">Digital Footprint</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      TruSINT aggregates publicly available information across social platforms,
+      search engines, and the open web — in real-time. No login required.
+    </p>
+
+    <!-- Search Box -->
+    <div class="search-wrapper">
+      <div class="search-box">
+        <div class="search-input-group">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Full name (e.g. Elon Musk)"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Person's full name"
+            maxlength="100"
+          />
+          <div class="search-divider"></div>
+          <input
+            type="text"
+            id="keywords-input"
+            class="search-keywords"
+            placeholder="Keywords (e.g. CEO, Tesla)"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Optional keywords"
+            maxlength="120"
+          />
+          <button class="search-btn" id="search-btn" aria-label="Run OSINT search">
+            🔍 Search
+          </button>
+        </div>
+        </div>
+      </div>
+      
+      <!-- Advanced Search Toggle & Panel -->
+      <div class="advanced-search-wrapper">
+        <button type="button" class="advanced-toggle" id="advanced-toggle">
+          ⚙️ Advanced Filters
+        </button>
+        <div class="advanced-panel" id="advanced-panel" style="display: none;">
+          <div class="advanced-grid">
+            <div class="advanced-field">
+              <label for="work-input">Place of Work</label>
+              <input type="text" id="work-input" placeholder="e.g. SpaceX" aria-label="Place of Work">
+            </div>
+            <div class="advanced-field">
+              <label for="institute-input">Institute / Organization</label>
+              <input type="text" id="institute-input" placeholder="e.g. Stanford University" aria-label="Institute">
+            </div>
+            <div class="advanced-field">
+              <label for="image-input">Image URL</label>
+              <input type="url" id="image-input" placeholder="https://example.com/photo.jpg" aria-label="Image URL">
+            </div>
+          </div>
+          <div class="advanced-hint">Providing an Image URL will generate links to reverse image search engines.</div>
+        </div>
+      </div>
+
+
+      <div class="search-hints">
+        <span class="search-hint-tag" data-query="Elon Musk" title="Try: Elon Musk">Elon Musk</span>
+        <span class="search-hint-tag" data-query="Mark Zuckerberg" title="Try: Mark Zuckerberg">Mark Zuckerberg</span>
+        <span class="search-hint-tag" data-query="Sundar Pichai" title="Try: Sundar Pichai">Sundar Pichai</span>
+        <span class="search-hint-tag" data-query="Ada Lovelace" title="Try: Ada Lovelace">Ada Lovelace</span>
+        <span class="search-hint-tag" data-query="Tim Berners-Lee" title="Try: Tim Berners-Lee">Tim Berners-Lee</span>
+      </div>
+    </div>
+
+    <!-- Hero Stats -->
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Platforms Scanned</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">Real-Time</div>
+        <div class="stat-label">Live SSE Streaming</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">0</div>
+        <div class="stat-label">API Keys Required</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Public Data Only</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ RESULTS SECTION ═══════════════ -->
+  <section id="results-section">
+    <div class="container">
+
+      <!-- Progress bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+
+      <!-- Homonym Alert (shown when multiple distinct people detected) -->
+      <div class="homonym-alert" id="homonym-alert" style="display:none">
+        <div class="alert-icon">⚠️</div>
+        <div>
+          <div class="alert-title">Multiple Identities Detected</div>
+          <div class="alert-body">
+            Results suggest this name belongs to more than one distinct person.
+            Use keywords to narrow down your search to a specific individual.
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Header with PeopleRank Gauge -->
+      <div class="profile-header" id="profile-header" style="display:none"></div>
+
+      <!-- Loading Radar (shown while searching) -->
+      <div class="loading-radar" id="loading-radar" style="display:none">
+        <div class="radar-container">
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-dot"></div>
+        </div>
+        <div class="loading-status" id="loading-status">Initialising scan...</div>
+        <div class="loading-stage" id="loading-stage">Stage: Query Parsing</div>
+      </div>
+
+      <!-- Tag Cloud -->
+      <div class="tag-cloud-card" id="tag-cloud-card" style="display:none">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Topic Intelligence — Tag Cloud
+        </div>
+        <div class="tag-cloud" id="tag-cloud"></div>
+      </div>
+      
+      <!-- Visual Intelligence -->
+      <div class="tag-cloud-card" id="visual-intel-card" style="display:none; margin-top:20px;">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Visual Intelligence
+        </div>
+        <div style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:12px;">Reverse Image Search Direct Links for the provided Image URL.</div>
+        <div class="visual-intel-links" id="visual-intel-links" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+      </div>
+      
+      <!-- Research Papers Summary -->
+      <div class="tag-cloud-card" id="research-card" style="display:none; margin-top:20px;">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Academic & Research Profiles
+        </div>
+        <div id="research-profiles" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;"></div>
+        <div class="card-title" style="font-size: 0.9rem;">Recent Publications</div>
+        <div id="research-papers" style="display:grid; grid-template-columns:1fr; gap:10px;"></div>
+      </div>
+
+      <!-- Images Strip -->
+      <div class="images-card" id="images-card" style="display:none">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Found Images
+        </div>
+        <div class="image-strip" id="image-strip"></div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" id="filter-tabs"></div>
+
+      <!-- Results Grid -->
+      <div class="results-grid" id="results-grid"></div>
+
+      <!-- Comments & Discussions Card -->
+      <div class="tag-cloud-card" id="comments-card" style="display:none; margin-top:20px;">
+        <div class="card-title">
+          <span class="title-dot"></span>
+          Public Comments &amp; Discussions
+        </div>
+        <div style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:12px;">Publicly visible comments and posts mentioning this person.</div>
+        <div id="comments-list" style="display:grid; grid-template-columns:1fr; gap:10px;"></div>
+      </div>
+
+      <!-- Export Bar -->
+      <div class="export-bar" id="export-bar" style="display:none">
+        <div class="export-info" id="export-info">Loading results...</div>
+        <div class="export-actions">
+          <button class="btn btn-outline" onclick="exportJSON()" id="btn-export-json" aria-label="Export results as JSON">
+            📄 Export JSON
+          </button>
+          <button class="btn btn-primary" onclick="printReport()" id="btn-print" aria-label="Print intelligence report">
+            🖨️ Print Report
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+  <section id="how-it-works" style="padding: 80px 0; position:relative; z-index:1">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:48px">
+        <div class="hero-eyebrow" style="display:inline-flex; margin-bottom:16px">How It Works</div>
+        <h2 style="font-family:var(--font-heading); font-size:2rem; font-weight:700; letter-spacing:-0.02em">
+          Five-Stage OSINT Pipeline
+        </h2>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px">
+        <!-- Stage cards -->
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">🧠</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">1. Query Parsing</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Splits input into first name, last name, keywords & location for targeted searching</div>
+        </div>
+
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">🌐</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">2. Search Mashup</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Queries DuckDuckGo with multiple query variants for broad web coverage</div>
+        </div>
+
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">📡</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">3. Social Probing</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Probes GitHub, Reddit, Wikipedia, LinkedIn, Twitter, Instagram & more</div>
+        </div>
+
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">🔗</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">4. Entity Resolution</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Deduplicates results, builds TF-IDF tag cloud & detects homonyms</div>
+        </div>
+
+        <div class="tag-cloud-card" style="text-align:center">
+          <div style="font-size:2rem; margin-bottom:12px">📊</div>
+          <div style="font-family:var(--font-heading); font-weight:600; margin-bottom:8px; color:var(--cyan)">5. PeopleRank™</div>
+          <div style="font-size:0.83rem; color:var(--text-secondary)">Computes a 0–100 online visibility score based on breadth, depth & authority</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ LOOKMEUP SECTION ═══════════════ -->
+  <section id="lookmeup-section" style="display:none; padding-top: 90px; min-height: 100vh;">
+    <div class="container" style="max-width:1100px; padding: 40px 24px 80px;">
+
+      <!-- Header -->
+      <div style="margin-bottom: 36px;">
+        <div class="hero-eyebrow" style="display:inline-flex; margin-bottom:16px;">📧 Reverse Email Intelligence</div>
+        <h1 style="font-family:var(--font-heading); font-size:2.2rem; font-weight:700; letter-spacing:-0.03em; margin-bottom:12px;">
+          <span class="gradient-text">LookMeUp</span> — Email Intelligence
+        </h1>
+        <p style="color:var(--text-secondary); font-size:1rem; max-width:640px; line-height:1.65;">
+          Enter any email address to uncover publicly available identity information, social profiles,
+          breach records, domain intelligence, and more — all in real-time from public sources.
+        </p>
+      </div>
+
+      <!-- Search Box -->
+      <div class="lmu-search-wrap">
+        <div class="lmu-search-box">
+          <span class="lmu-search-icon">📧</span>
+          <input
+            type="email"
+            id="lmu-email-input"
+            class="lmu-email-input"
+            placeholder="Enter email address (e.g. john.doe@example.com)"
+            autocomplete="off"
+            spellcheck="false"
+            maxlength="200"
+            aria-label="Email address to investigate"
+          />
+          <button class="lmu-search-btn" id="lmu-search-btn" onclick="startEmailLookup()">
+            🔍 Investigate
+          </button>
+        </div>
+        <div class="lmu-hints">
+          <span class="lmu-hint-tag">Silent lookup — the person is never notified</span>
+          <span class="lmu-hint-tag">Public data only</span>
+          <span class="lmu-hint-tag">10 intelligence sources</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="lmu-progress-wrap" id="lmu-progress-wrap" style="display:none;">
+        <div class="lmu-progress-bar">
+          <div class="lmu-progress-fill" id="lmu-progress-fill"></div>
+        </div>
+        <div class="lmu-progress-status" id="lmu-progress-status">Initialising investigation...</div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="lmu-main-grid" id="lmu-main-grid" style="display:none;">
+
+        <!-- LEFT COLUMN -->
+        <div class="lmu-left-col">
+
+          <!-- Identity Card -->
+          <div class="lmu-card" id="lmu-identity-card">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:var(--cyan)"></span>
+              Identity Summary
+              <span class="lmu-card-badge" id="lmu-score-badge">Score: —</span>
+            </div>
+            <div class="lmu-identity-body" id="lmu-identity-body">
+              <div class="lmu-identity-avatar" id="lmu-identity-avatar">
+                <div class="lmu-avatar-placeholder">?</div>
+              </div>
+              <div class="lmu-identity-info" id="lmu-identity-info">
+                <div class="lmu-identity-name" id="lmu-identity-name">Investigating...</div>
+                <div class="lmu-identity-email" id="lmu-identity-email"></div>
+                <div class="lmu-identity-meta" id="lmu-identity-meta"></div>
+                <div class="lmu-key-findings" id="lmu-key-findings"></div>
+              </div>
+            </div>
+            <!-- Score Gauge -->
+            <div class="lmu-score-row" id="lmu-score-row" style="display:none">
+              <div class="lmu-score-track">
+                <div class="lmu-score-fill" id="lmu-score-fill"></div>
+              </div>
+              <div class="lmu-score-label" id="lmu-score-label">0 / 100</div>
+            </div>
+          </div>
+
+          <!-- Email Pattern Analysis -->
+          <div class="lmu-card" id="lmu-pattern-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#f59e0b"></span>
+              Email Pattern Analysis
+              <span class="lmu-status-pill lmu-pill-amber" id="lmu-pattern-status">Scanning...</span>
+            </div>
+            <div class="lmu-grid-2" id="lmu-pattern-body"></div>
+          </div>
+
+          <!-- Domain Intelligence -->
+          <div class="lmu-card" id="lmu-domain-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#10b981"></span>
+              Domain & Provider Intelligence
+              <span class="lmu-status-pill" id="lmu-domain-status">Scanning...</span>
+            </div>
+            <div id="lmu-domain-body"></div>
+          </div>
+
+          <!-- Breach Intelligence -->
+          <div class="lmu-card" id="lmu-breach-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#ef4444"></span>
+              Data Breach Intelligence
+              <span class="lmu-status-pill lmu-pill-red" id="lmu-breach-status">Scanning...</span>
+            </div>
+            <div id="lmu-breach-body"></div>
+          </div>
+
+          <!-- Reputation Check -->
+          <div class="lmu-card" id="lmu-rep-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#8b5cf6"></span>
+              Email Reputation Analysis
+              <span class="lmu-status-pill" id="lmu-rep-status">Scanning...</span>
+            </div>
+            <div id="lmu-rep-body"></div>
+          </div>
+
+        </div><!-- /left col -->
+
+        <!-- RIGHT COLUMN -->
+        <div class="lmu-right-col">
+
+          <!-- Gravatar Profile -->
+          <div class="lmu-card" id="lmu-gravatar-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#00d4ff"></span>
+              Gravatar / Identity Profile
+              <span class="lmu-status-pill" id="lmu-gravatar-status">Scanning...</span>
+            </div>
+            <div id="lmu-gravatar-body"></div>
+          </div>
+
+          <!-- GitHub Account -->
+          <div class="lmu-card" id="lmu-github-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#6e40c9"></span>
+              GitHub Account
+              <span class="lmu-status-pill" id="lmu-github-status">Scanning...</span>
+            </div>
+            <div id="lmu-github-body"></div>
+          </div>
+
+          <!-- Social Accounts -->
+          <div class="lmu-card" id="lmu-social-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#e1306c"></span>
+              Social Media Accounts
+              <span class="lmu-status-pill" id="lmu-social-status">Scanning...</span>
+            </div>
+            <div id="lmu-social-body"></div>
+          </div>
+
+          <!-- WHOIS Domain Info -->
+          <div class="lmu-card" id="lmu-whois-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#f59e0b"></span>
+              WHOIS Domain Intelligence
+              <span class="lmu-status-pill" id="lmu-whois-status">Scanning...</span>
+            </div>
+            <div id="lmu-whois-body"></div>
+          </div>
+
+          <!-- Username Candidates -->
+          <div class="lmu-card" id="lmu-usernames-card" style="display:none">
+            <div class="lmu-card-header">
+              <span class="lmu-card-dot" style="background:#00ab6c"></span>
+              Username Correlation
+            </div>
+            <div id="lmu-usernames-body"></div>
+          </div>
+
+        </div><!-- /right col -->
+      </div><!-- /main grid -->
+
+      <!-- Web Results -->
+      <div class="lmu-card" id="lmu-web-card" style="display:none; margin-top:20px">
+        <div class="lmu-card-header">
+          <span class="lmu-card-dot" style="background:#10b981"></span>
+          Web Footprint — Dork Results
+          <span class="lmu-status-pill" id="lmu-web-status">Scanning...</span>
+        </div>
+        <div class="lmu-web-grid" id="lmu-web-body"></div>
+      </div>
+
+      <!-- Reddit Mentions -->
+      <div class="lmu-card" id="lmu-reddit-card" style="display:none; margin-top:20px">
+        <div class="lmu-card-header">
+          <span class="lmu-card-dot" style="background:#ff4500"></span>
+          Reddit Mentions
+          <span class="lmu-status-pill" id="lmu-reddit-status">Scanning...</span>
+        </div>
+        <div id="lmu-reddit-body"></div>
+      </div>
+
+      <!-- Export / Actions -->
+      <div class="lmu-export-bar" id="lmu-export-bar" style="display:none">
+        <div class="lmu-export-info" id="lmu-export-info">Investigation complete</div>
+        <div class="lmu-export-actions">
+          <button class="btn btn-outline" onclick="exportEmailReport()" id="lmu-btn-export">📄 Export JSON</button>
+          <button class="btn btn-primary" onclick="printEmailReport()" id="lmu-btn-print">🖨️ Print Report</button>
+        </div>
+      </div>
+
+      <!-- History Panel -->
+      <div class="lmu-card" id="lmu-history-card" style="margin-top:28px">
+        <div class="lmu-card-header">
+          <span class="lmu-card-dot" style="background:var(--text-muted)"></span>
+          Investigation History
+        </div>
+        <div id="lmu-history-list" class="lmu-history-list">
+          <div class="lmu-history-empty">No investigations yet. Start by entering an email above.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ RECRUITER SECTION ═══════════════ -->
+  <section id="recruiter-section" style="display:none; padding-top: 90px; min-height: 100vh;">
+    <div class="container" style="max-width:1100px; padding: 40px 24px 80px;">
+
+      <!-- Header -->
+      <div class="recruiter-header">
+        <div class="hero-eyebrow" style="display:inline-flex; margin-bottom:16px;">🎯 Candidate Sourcing Engine</div>
+        <h1 style="font-family:var(--font-heading); font-size:2.2rem; font-weight:700; letter-spacing:-0.03em; margin-bottom:12px;">
+          Find <span class="gradient-text">Hidden Talent</span> with X-Ray Search
+        </h1>
+        <p style="color:var(--text-secondary); font-size:1rem; max-width:640px; line-height:1.65;">
+          Build powerful Boolean search strings to surface candidate profiles on LinkedIn, GitHub, Twitter, and more — directly through Google. No registration required.
+        </p>
+      </div>
+
+      <!-- Platform Tabs -->
+      <div class="recruiter-platforms" id="recruiter-platforms">
+        <button class="platform-tab active" data-platform="linkedin" onclick="selectPlatform(this, 'linkedin')">
+          <span class="platform-icon">💼</span> LinkedIn
+        </button>
+        <button class="platform-tab" data-platform="github" onclick="selectPlatform(this, 'github')">
+          <span class="platform-icon">🐙</span> GitHub
+        </button>
+        <button class="platform-tab" data-platform="twitter" onclick="selectPlatform(this, 'twitter')">
+          <span class="platform-icon">🐦</span> X (Twitter)
+        </button>
+        <button class="platform-tab" data-platform="stackoverflow" onclick="selectPlatform(this, 'stackoverflow')">
+          <span class="platform-icon">📚</span> Stack Overflow
+        </button>
+        <button class="platform-tab" data-platform="xing" onclick="selectPlatform(this, 'xing')">
+          <span class="platform-icon">🌐</span> Xing
+        </button>
+        <button class="platform-tab" data-platform="dribbble" onclick="selectPlatform(this, 'dribbble')">
+          <span class="platform-icon">🏀</span> Dribbble
+        </button>
+        <button class="platform-tab" data-platform="wellfound" onclick="selectPlatform(this, 'wellfound')">
+          <span class="platform-icon">🚀</span> Wellfound
+        </button>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="recruiter-grid">
+        <!-- Form Column -->
+        <div class="recruiter-form-col">
+          <div class="recruiter-card">
+            <div class="recruiter-card-title">
+              <span class="title-dot" style="background: var(--cyan);"></span>
+              Search Parameters
+              <span class="recruiter-platform-label" id="current-platform-label">LinkedIn</span>
+            </div>
+
+            <div class="rform-grid">
+              <!-- Country -->
+              <div class="rform-field">
+                <label class="rform-label" for="rec-country">🌍 Country</label>
+                <select id="rec-country" class="rform-select">
+                  <option value="all">All Countries</option>
+                  <option value="www">United States</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="in">India</option>
+                  <option value="ca">Canada</option>
+                  <option value="au">Australia</option>
+                  <option value="de">Germany</option>
+                  <option value="fr">France</option>
+                  <option value="sg">Singapore</option>
+                  <option value="ae">United Arab Emirates</option>
+                  <option value="nl">Netherlands</option>
+                  <option value="jp">Japan</option>
+                  <option value="br">Brazil</option>
+                  <option value="za">South Africa</option>
+                  <option value="ng">Nigeria</option>
+                  <option value="ke">Kenya</option>
+                  <option value="mx">Mexico</option>
+                  <option value="es">Spain</option>
+                  <option value="it">Italy</option>
+                  <option value="ru">Russia</option>
+                  <option value="cn">China</option>
+                  <option value="kr">South Korea</option>
+                  <option value="se">Sweden</option>
+                  <option value="ch">Switzerland</option>
+                  <option value="nz">New Zealand</option>
+                  <option value="pl">Poland</option>
+                  <option value="pt">Portugal</option>
+                  <option value="ar">Argentina</option>
+                  <option value="pk">Pakistan</option>
+                  <option value="bd">Bangladesh</option>
+                  <option value="sa">Saudi Arabia</option>
+                  <option value="qa">Qatar</option>
+                  <option value="tr">Turkey</option>
+                  <option value="ph">Philippines</option>
+                  <option value="id">Indonesia</option>
+                  <option value="th">Thailand</option>
+                  <option value="my">Malaysia</option>
+                  <option value="vn">Vietnam</option>
+                  <option value="ua">Ukraine</option>
+                  <option value="ro">Romania</option>
+                  <option value="hu">Hungary</option>
+                  <option value="cz">Czech Republic</option>
+                  <option value="gr">Greece</option>
+                  <option value="fi">Finland</option>
+                  <option value="no">Norway</option>
+                  <option value="dk">Denmark</option>
+                  <option value="be">Belgium</option>
+                  <option value="at">Austria</option>
+                  <option value="ie">Ireland</option>
+                  <option value="il">Israel</option>
+                  <option value="eg">Egypt</option>
+                </select>
+                <div class="rform-hint">Target country for your search</div>
+              </div>
+
+              <!-- Job Title -->
+              <div class="rform-field">
+                <label class="rform-label" for="rec-jobtitle">💼 Job Title</label>
+                <input type="text" id="rec-jobtitle" class="rform-input" placeholder="e.g. Software Engineer OR Developer" />
+                <div class="rform-hint">Use OR to search multiple titles</div>
+              </div>
+
+              <!-- Include Keywords -->
+              <div class="rform-field">
+                <label class="rform-label" for="rec-include">✅ Location or Keywords to <strong>Include</strong></label>
+                <input type="text" id="rec-include" class="rform-input" placeholder="e.g. London OR Remote AND Python" />
+                <div class="rform-hint">Add location, skills, or phrases to narrow results</div>
+              </div>
+
+              <!-- Exclude Keywords -->
+              <div class="rform-field">
+                <label class="rform-label" for="rec-exclude">❌ Keywords to <strong>Exclude</strong></label>
+                <input type="text" id="rec-exclude" class="rform-input" placeholder="e.g. Junior OR Intern OR Assistant" />
+                <div class="rform-hint">Separate each term with a comma</div>
+              </div>
+
+              <!-- Education -->
+              <div class="rform-field">
+                <label class="rform-label" for="rec-education">🎓 Education Level</label>
+                <select id="rec-education" class="rform-select">
+                  <option value="">Any education</option>
+                  <option value="bachelor OR degree OR licence">Bachelor's Degree</option>
+                  <option value="masters OR MBA OR MSc">Master's Degree</option>
+                  <option value="PhD OR doctorate OR DPhil">Doctoral Degree (PhD)</option>
+                </select>
+                <div class="rform-hint">Minimum qualification filter</div>
+              </div>
+
+              <!-- Current Employer -->
+              <div class="rform-field">
+                <label class="rform-label" for="rec-employer">🏢 Current Employer</label>
+                <input type="text" id="rec-employer" class="rform-input" placeholder="e.g. Google OR Microsoft" />
+                <div class="rform-hint">Search for candidates working at specific companies</div>
+              </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button class="recruiter-search-btn" id="rec-search-btn" onclick="generateRecruiterSearch()">
+              <span id="rec-btn-icon">🎯</span>
+              <span id="rec-btn-text">Generate & Search on Google</span>
+            </button>
+
+            <!-- Boolean Preview -->
+            <div class="boolean-preview" id="boolean-preview" style="display:none;">
+              <div class="boolean-preview-title">📋 Generated Boolean String</div>
+              <div class="boolean-string" id="boolean-string"></div>
+              <div class="boolean-actions">
+                <button class="bool-btn" onclick="copyBoolean()" id="copy-bool-btn">📋 Copy</button>
+                <button class="bool-btn bool-btn-primary" onclick="openInGoogle()" id="open-google-btn">🔍 Open in Google</button>
+                <button class="bool-btn" onclick="openInBing()" id="open-bing-btn">🔎 Open in Bing</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="recruiter-sidebar">
+          <!-- Tips Card -->
+          <div class="recruiter-card recruiter-tips-card">
+            <div class="recruiter-card-title">
+              <span class="title-dot" style="background: var(--violet);"></span>
+              Why Use X-Ray Search?
+            </div>
+            <ul class="recruiter-tips-list">
+              <li>🔓 See profiles <strong>outside</strong> your network</li>
+              <li>📊 Get more than 100 results per search</li>
+              <li>🎯 Filter by education, employer & skills</li>
+              <li>🌍 Search any country worldwide</li>
+              <li>💡 Build complex Boolean queries easily</li>
+              <li>🆓 Completely free — no registration needed</li>
+            </ul>
+          </div>
+
+          <!-- Saved Searches Card -->
+          <div class="recruiter-card">
+            <div class="recruiter-card-title">
+              <span class="title-dot" style="background: var(--amber);"></span>
+              Recent Searches
+            </div>
+            <div id="rec-saved-list" class="rec-saved-list">
+              <div class="rec-saved-empty">No recent searches yet.<br>Your searches will appear here.</div>
+            </div>
+          </div>
+
+          <!-- Quick Templates -->
+          <div class="recruiter-card">
+            <div class="recruiter-card-title">
+              <span class="title-dot" style="background: var(--green);"></span>
+              Quick Templates
+            </div>
+            <div class="rec-templates">
+              <button class="rec-template-btn" onclick="loadTemplate('senior-engineer')">
+                👨‍💻 Senior Engineer
+              </button>
+              <button class="rec-template-btn" onclick="loadTemplate('product-manager')">
+                📱 Product Manager
+              </button>
+              <button class="rec-template-btn" onclick="loadTemplate('data-scientist')">
+                📊 Data Scientist
+              </button>
+              <button class="rec-template-btn" onclick="loadTemplate('ux-designer')">
+                🎨 UX Designer
+              </button>
+              <button class="rec-template-btn" onclick="loadTemplate('marketing')">
+                📢 Marketing Lead
+              </button>
+              <button class="rec-template-btn" onclick="loadTemplate('devops')">
+                ⚙️ DevOps Engineer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ ZLENS TAB SECTION ═══════════════ -->
+  <section id="zlens-section" style="display:none; padding-top: 90px; min-height: 100vh;">
+    <div class="zlens-container">
+      
+      <!-- Header -->
+      <div class="zlens-hero">
+        <div style="display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px;">
+          <div class="zlens-badge">
+            <span>⚡ VISUAL RETRIEVAL &amp; OSINT DORKING</span>
+          </div>
+          <div class="zlens-badge" id="zlens-index-pill" style="border-color:rgba(0, 255, 128, 0.3); color:var(--green); background:rgba(0,255,128,0.06);">
+            <span>📦 Local Index: <strong id="zlens-index-count">...</strong> assets</span>
+          </div>
+          <button type="button" id="zlens-index-refresh-btn" onclick="zlensTriggerIndex()" style="background:rgba(16, 217, 247, 0.12); border:1px solid rgba(16, 217, 247, 0.35); color:var(--cyan); padding:6px 14px; border-radius:99px; font-size:0.75rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; transition:0.2s;" onmouseover="this.style.background='rgba(16, 217, 247, 0.25)'" onmouseout="this.style.background='rgba(16, 217, 247, 0.12)'">
+            🔄 Index / Refresh Collection
+          </button>
+        </div>
+        <h1 class="zlens-title">
+          ZLens — <span class="gradient-text">Visual Retrieval &amp; Image Dorking</span>
+        </h1>
+        <p class="zlens-subtitle">
+          Search local indexed collections for exact SHA-256 duplicates and perceptual near-duplicates, or harvest public web images across Bing, Wikimedia, Reddit, and LinkedIn with targeted OSINT dorking.
+        </p>
+      </div>
+
+      <!-- Workbench (Dropzone + Parameters) -->
+      <div class="zlens-workbench">
+        
+        <!-- Left Column: Upload & Image Validation HUD -->
+        <div class="zlens-card">
+          <div class="zlens-card-header">
+            <div class="zlens-card-title">
+              <span>🖼️</span> Query Image
+            </div>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
+              JPG / PNG / WebP (Max 15MB)
+            </span>
+          </div>
+
+          <!-- Dropzone -->
+          <div class="zlens-dropzone" id="zlens-dropzone">
+            <div class="zlens-drop-icon">📸</div>
+            <div class="zlens-drop-primary">Drop image here, or click to browse</div>
+            <div class="zlens-drop-sub">Genuine magic-byte validation, EXIF sanitization, SHA-256 &amp; perceptual pHash calculation</div>
+          </div>
+          <input type="file" id="zlens-file-input" class="zlens-file-input" accept="image/jpeg,image/png,image/webp" />
+
+          <!-- Preview & HUD -->
+          <div class="zlens-preview-wrap" id="zlens-preview-wrap">
+            <img id="zlens-preview-img" class="zlens-preview-img" alt="Uploaded query image" />
+          </div>
+
+          <!-- Preprocessing Telemetry -->
+          <div class="zlens-telemetry" id="zlens-telemetry">
+            <span>Awaiting image upload to compute hash signatures...</span>
+          </div>
+        </div>
+
+        <!-- Right Column: Optional Context & Search Execution -->
+        <div class="zlens-card">
+          <div class="zlens-card-header">
+            <div class="zlens-card-title">
+              <span>⚙️</span> Search Configuration
+            </div>
+            <span style="font-size:0.75rem; color:var(--cyan); font-family:var(--font-mono);">
+              OPTIONAL REFINEMENT
+            </span>
+          </div>
+
+          <!-- Query Context / Person Name (Optional) -->
+          <div class="zlens-form-group">
+            <label class="zlens-label" for="zlens-name-input">
+              🏷️ Associated Subject or Topic <span class="zlens-label-opt">(optional — leave blank for pure visual reverse search)</span>
+            </label>
+            <input
+              type="text"
+              id="zlens-name-input"
+              class="zlens-input"
+              placeholder="Leave blank for pure visual search, or enter name for contextual dorking"
+              autocomplete="off"
+            />
+            <div style="font-size:0.73rem; color:var(--text-muted); margin-top:4px;">
+              💡 <em>Leave blank to search purely by image bytes &amp; facial embeddings without text bias.</em>
+            </div>
+          </div>
+
+          <!-- Associated Keywords (Optional) -->
+          <div class="zlens-form-group">
+            <label class="zlens-label" for="zlens-keywords-input">
+              🔍 Context Keywords <span class="zlens-label-opt">(optional — leave blank for pure visual search)</span>
+            </label>
+            <input
+              type="text"
+              id="zlens-keywords-input"
+              class="zlens-input"
+              placeholder="e.g. London, Wikipedia, Technology (leave blank for pure visual search)"
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Search Sources / Platforms -->
+          <div class="zlens-form-group">
+            <label class="zlens-label">
+              🌐 Search Scope &amp; Authorized Providers
+            </label>
+            <div class="zlens-platforms" id="zlens-platforms">
+              <button type="button" class="zlens-plat-btn active" data-platform="all">🌐 All Sources</button>
+              <button type="button" class="zlens-plat-btn active" data-platform="web">🔎 Web Index</button>
+              <button type="button" class="zlens-plat-btn active" data-platform="wikimedia">📚 Wikimedia</button>
+              <button type="button" class="zlens-plat-btn active" data-platform="x">✖️ X / Twitter</button>
+              <button type="button" class="zlens-plat-btn active" data-platform="reddit">🤖 Reddit</button>
+              <button type="button" class="zlens-plat-btn active" data-platform="linkedin">💼 LinkedIn</button>
+            </div>
+          </div>
+
+          <!-- Lenso.ai API Integration -->
+          <div class="zlens-form-group">
+            <label class="zlens-label" for="zlens-lenso-key">
+              📸 Lenso.ai API Key <span class="zlens-label-opt">(optional — unlocks Lenso.ai AI visual engine)</span>
+            </label>
+            <div style="display:flex; gap:8px;">
+              <input
+                type="password"
+                id="zlens-lenso-key"
+                class="zlens-input"
+                placeholder="Paste your lenso.ai Bearer API Token here..."
+                autocomplete="off"
+              />
+              <button type="button" class="btn btn-outline" onclick="saveLensoApiKey()" style="white-space:nowrap; padding:6px 14px; font-size:0.8rem; border-color:var(--cyan); color:var(--cyan); cursor:pointer;">
+                Save Key
+              </button>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px; font-size:0.75rem;">
+              <span style="color:var(--text-muted);">Get key at <a href="https://lenso.ai" target="_blank" rel="noopener noreferrer" style="color:var(--cyan); text-decoration:none;">lenso.ai ↗</a></span>
+              <span id="zlens-lenso-saved-pill" style="color:var(--green); display:none;">✓ Token Saved</span>
+            </div>
+          </div>
+
+          <!-- Scan Button -->
+          <button type="button" class="zlens-scan-btn" id="zlens-scan-btn" onclick="startZLensScan()" disabled>
+            <span>Select or Drop Image Above</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Live Radar & Progress HUD -->
+      <div class="zlens-card zlens-progress-card" id="zlens-progress-card">
+        <div class="zlens-hud-flex">
+          <div class="zlens-radar">
+            <div class="zlens-radar-sweep"></div>
+            <div class="zlens-radar-blip"></div>
+          </div>
+          <div class="zlens-hud-info">
+            <div class="zlens-hud-status" id="zlens-hud-status">Initializing Visual Retrieval Pipeline...</div>
+            <div class="zlens-progress-bar-bg">
+              <div class="zlens-progress-bar-fill" id="zlens-progress-fill"></div>
+            </div>
+            <div class="zlens-hud-log" id="zlens-hud-log">Querying image indices and calculating evidence distances...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Area -->
+      <div class="zlens-results" id="zlens-results">
+        
+        <!-- Summary Stats Ribbon -->
+        <div class="zlens-stats-ribbon">
+          <div class="zlens-stat-box">
+            <div class="zlens-stat-num" id="zlens-stat-matches">0</div>
+            <div class="zlens-stat-lbl">Matches Surfaced</div>
+          </div>
+          <div class="zlens-stat-box">
+            <div class="zlens-stat-num" id="zlens-stat-candidates">0</div>
+            <div class="zlens-stat-lbl">Candidates Examined</div>
+          </div>
+          <div class="zlens-stat-box">
+            <div class="zlens-stat-num" id="zlens-stat-top">None</div>
+            <div class="zlens-stat-lbl">Top Match Signal</div>
+          </div>
+          <div class="zlens-stat-box">
+            <div class="zlens-stat-num" id="zlens-stat-time">0.0s</div>
+            <div class="zlens-stat-lbl">Search Duration</div>
+          </div>
+        </div>
+
+        <!-- Top Match Spotlight -->
+        <div class="zlens-spotlight" id="zlens-spotlight" style="display: none;"></div>
+
+        <!-- Filter Bar -->
+        <div class="zlens-filter-bar">
+          <div class="zlens-filter-tabs">
+            <button class="zlens-filter-tab active" data-filter="all" onclick="filterZLensMatches('all')">All Matches</button>
+            <button class="zlens-filter-tab" data-filter="exact" onclick="filterZLensMatches('exact')">Exact Duplicates</button>
+            <button class="zlens-filter-tab" data-filter="near" onclick="filterZLensMatches('near')">Near-Duplicates</button>
+            <button class="zlens-filter-tab" data-filter="visual" onclick="filterZLensMatches('visual')">Visual &amp; Web Dorks</button>
+          </div>
+        </div>
+
+        <!-- Matches Cards Grid -->
+        <div class="zlens-matches-grid" id="zlens-matches-grid"></div>
+
+        <!-- Global Reverse Visual Engines Pivots -->
+        <div class="zlens-pivots-section" id="zlens-pivots-section" style="margin-top: 36px; display: none;">
+          <div class="zlens-pivots-title">
+            <span>🌐</span> Global Reverse Visual Engines
+          </div>
+          <div class="zlens-pivots-sub">
+            1-Click direct pivot to cross-examine this query image across industry-leading facial &amp; visual recognition engines.
+          </div>
+          <div class="zlens-pivots-grid" id="zlens-pivots-grid"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer">
+    <p class="footer-disclaimer">
+      ⚠️ TruSINT searches only publicly available information.
+      This tool is intended for educational and legitimate investigative use only.
+      Do not use to harass, stalk, or harm individuals.
+      Always respect privacy laws and platform terms of service.
+    </p>
+    <div class="footer-links">
+      <a class="footer-link" href="https://github.com/harsh-0106-cyber/TruSINT" target="_blank">GitHub</a>
+      <span style="color:var(--text-muted)">·</span>
+      <a class="footer-link" href="#hero">Back to Top</a>
+    </div>
+    <p style="margin-top:12px; font-size:0.75rem; color:var(--text-muted)">
+      TruSINT &copy; 2026 · Built with Flask &amp; Vanilla JS · All data sourced from public web
+    </p>
+  </footer>
+
+  <!-- ═══════════════ LIGHTBOX ═══════════════ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Image viewer">
+    <span class="lightbox-close" title="Close">✕</span>
+    <img id="lightbox-img" src="" alt="Lightbox image" />
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/lookmeup.js"></script>
+  <script src="js/zlens.js"></script>
+
+  <!-- Show tag cloud card as soon as tags arrive -->
+  <script>
+    // Observe tag cloud and show/hide its wrapper card
+    const tagObserver = new MutationObserver(() => {
+      const tc = document.getElementById('tag-cloud');
+      const card = document.getElementById('tag-cloud-card');
+      if (tc && card) {
+        card.style.display = tc.children.length > 0 ? 'block' : 'none';
+      }
+    });
+    tagObserver.observe(document.getElementById('tag-cloud'), { childList: true });
+  </script>
+
+</body>
+</html>
